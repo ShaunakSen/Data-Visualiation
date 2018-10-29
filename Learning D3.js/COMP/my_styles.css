@@ -1,0 +1,11 @@
+body{
+	font-family: monospace;
+}
+
+div.bar {
+    display: inline-block;
+    width: 50px;
+    height: 75px;   /* We'll override this later */
+    background-color: teal;
+    margin : 2px; /* This adds spaces between our bars so we can tell them apart */
+}

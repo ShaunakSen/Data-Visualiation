@@ -7,7 +7,7 @@ var barChartDataset = [80, 100, 56, 120, 180, 30, 40, 120, 160];
 // settings for bar chart
 
 var svgWidth = 500;
-var svgHeight = 500;
+var svgHeight = 300;
 var barPadding = 5;
 
 // compute width of each bar
@@ -97,10 +97,11 @@ chained below it on each data item (80, 100, 56...)
 
 For each data item we are appending a rect inside our svg container
 We provide the attr of y, height, width and transform to each rect
+In transform we just specify how to translate each rect in x and y direction
+The y translation is 0
 
-
-
-
+Rendered rect html:
+<rect y="400" height="100" width="50.55555555555556" transform="translate (55.55555555555556,0)"></rect>
 */
 
 var barChart = svg.selectAll('rect')
@@ -119,3 +120,20 @@ var barChart = svg.selectAll('rect')
                     return "translate (" + translate + ")";
                 });
 
+// Applying labels to our bar chart
+
+var text = svg.selectAll('text')
+                .data(barChartDataset)
+                .enter()
+                .append('text')
+                .text(function(d){
+                    return d;
+                })
+                .attr("x", function(d, i){
+                    var xpos = barWidth*i;
+                    return xpos;
+                })
+                .attr("y", function(d, i){
+                    var ypos = svgHeight-d-2;
+                    return ypos;
+                });
