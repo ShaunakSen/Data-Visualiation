@@ -12,16 +12,38 @@
 
             //load csv
 
-            // 
+            // define a row converter
 
-            d3.csv('./food.csv', function(data){
+            var rowConverter = function(d){
+                return{
+                    Food: d.Food,
+                    Deliciousness: parseFloat(d.Deliciousness)
+                };
+            }
+
+            d3.csv('./food.csv', rowConverter, function(data){
                 console.log(data)
             })
             // define the data
             var dataset = [5,10,15,20,25];
 
+            d3.select("body").selectAll("p")
+                .data(dataset)
+                .enter()
+                .append("p")
+                .text(function(i,d){
+                    console.log(i,d);
+                    return "blaah mini " + d;
+                })   
+                .style("color", function(d){
+                    if(d>15){
+                        return "red";
+                    } else{
+                        return "blue";
+                    }
+                });
 
-            d3.select("body").append("p").text("Mini");
+            //d3.select("body").append("p").text("Mini");
         </script>
     </body>
 </html>
