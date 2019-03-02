@@ -33,6 +33,12 @@ Here is what is happenning:
 - append("p"): Takes the empty placeholder created by enter() and appends a p elem
 - text(): takes ref to newly created p elem and adds text to it
 
+#### NOTE: 
+
+In this eg: if there is already a `<p>` tag : `<p>Test para</p>`, then only 4 paras will be rendered by d3
+
+However if we modify our code to `d3.select("body").selectAll("p")` then still 5 paras will be rendered
+
 ### Data Binding
 
 We can check the data
@@ -53,7 +59,7 @@ We can use
 
 ```
 
-Anytime after we call data() we can create an annon func that accepts d as ip. The data() method ensures that d is et to the corr value of the original dataset, given the current elem at hand
+Anytime after we call data() we can create an annon func that accepts d as ip. The data() method ensures that d is set to the corr value of the original dataset, given the current elem at hand
 
 ### Beyond text
 
