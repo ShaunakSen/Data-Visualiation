@@ -1,33 +1,28 @@
-## Ch 6 - Drawing with data
-
-- To assign class to an elem we use:
-`.attr('class', 'bar')`
-
-- There is a diff bw setting a class and applying a style directly to an elem. D3 can do both. **But setting classes is better**
-
-- `classed()`: used to apply or remove classes from elems. Eg: `.classed('bar', true)`
-
-### Simple bar chart:
-
-```javascript
-var dataset = [5,10,15,20,25];
-
-            d3.select("body")
-                .selectAll("div")
-                .data(dataset)
-                .enter()
-                .append("div")
-                .attr("class", "bar")
-                .style("height", function(d){
-                    var barHeight = d*5 
-                    return barHeight + "px";
-                });
-```
-
-### Complete bar chart code:
-
-```javascript
-// Your beautiful D3 code will go here
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="../d3.js"></script>
+        <style>
+            div.bar{
+                display:inline-block;
+                width: 20px; 
+                height: 75px; 
+                background-color:darkslategrey;
+                margin-right: 2px;
+            }
+        </style>
+    </head>
+    <body>
+       
+        <div class></div>
+        <svg height="100" width= "100" style="background-color: gray">
+            <rect x="0" y="75" width="19" height="25"></rect>
+        </svg>
+        <br><br><br><br>
+        <script type="text/javascript">
+            // Your beautiful D3 code will go here
             var dataset = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19, 14, 11, 22, 29, 
                             11, 13, 12, 17, 18, 10, 24, 18, 25, 9, 3 ];
             
@@ -85,4 +80,7 @@ var dataset = [5,10,15,20,25];
                 .attr("text-anchor", "middle");
                 
 
-```
+            
+        </script>
+    </body>
+</html>
