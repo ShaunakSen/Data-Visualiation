@@ -88,6 +88,7 @@ d3.select("p")
                     svg.selectAll("rect")
                         .data(dataset) // new data bound : now update the visuals which depend on 'd' as d changes
                         .transition()
+                        .duration(5000)
                         .attr("y", function(d) {
 			   		        return h - yScale(d);
 			            })
@@ -102,6 +103,7 @@ d3.select("p")
                     svg.selectAll("text")
                         .data(dataset) // new data bound : now update the visuals which depend on 'd' as d changes: dont think we need to update x
                         .transition()
+                        .duration(5000)
                         .text(function(d) {
                                 return d;
                         })

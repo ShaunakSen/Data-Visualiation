@@ -77,22 +77,37 @@
             d3.select("p")
                .on("click", function(){
                     // define new values
-                    if (!animationFlag){
-                        dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25,
-								5, 10, 13, 19, 21, 25, 22, 18, 15, 13 ];
-                        animationFlag = true;
-                    } else {
-                        dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-                        animationFlag = false;
-                    }
-                    
+                    //New values for dataset
+					var numValues = dataset.length;						 		//Count original length of dataset
+					var maxValue = 100;	
+                    var minValue = 6;										//Highest possible new value
+					dataset = [];  						 				 		//Initialize empty array
+					for (var i = 0; i < numValues; i++) {				 		//Loop numValues times
+						var newNumber = Math.floor(Math.random() * maxValue);	//New random integer (0-100)
+                        if (newNumber < minValue){
+                            newNumber = minValue;
+                        }
+						dataset.push(newNumber);			 			 		//Add new number to array
+					}
+                    animationFlag = !animationFlag;
+
+
+                    //Update scale domain (as dataset has changed)
+					//Recalibrate the scale domain, given the new max value in dataset
+					yScale.domain([0, d3.max(dataset)]);
+
+                    //NOTE: we do not need to recalibrate xScale as it simply uses the range of the dataset, which is fixed
 
 
                     // update all rects
                     svg.selectAll("rect")
                         .data(dataset) // new data bound : now update the visuals which depend on 'd' as d changes
                         .transition()
+                        .delay(function(d, i){
+                            return i/dataset.length *1000;
+                        })
+                        .duration(500)
+                        //.ease(d3.easeBounceOut) // default is easeCubicInOut
                         .attr("y", function(d) {
 			   		        return h - yScale(d);
 			            })
@@ -100,13 +115,23 @@
                             return yScale(d);
                         })
                         .attr("fill", function(d) {
-					        return "rgb(0, 0, " + Math.round(d * 10) + ")";
+                            if (animationFlag){
+                                return "rgb(0, 150, " + Math.round(d * 10) + ")";
+                            } else{
+                                return "rgb(0, 0, " + Math.round(d * 10) + ")";
+                            }
+					        
 			            });
                     // update the labels
 
                     svg.selectAll("text")
                         .data(dataset) // new data bound : now update the visuals which depend on 'd' as d changes: dont think we need to update x
                         .transition()
+                        .delay(function(d, i){
+                            return i/dataset.length*1000;
+                        })
+                        .duration(500)
+                        //.ease(d3.easeBounceOut)
                         .text(function(d) {
                                 return d;
                         })
