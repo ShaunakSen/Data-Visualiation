@@ -65,3 +65,53 @@
 
 ```
 
+### On click
+
+``` javascript
+
+d3.select("p")
+               .on("click", function(){
+                    // define new values
+                    if (!animationFlag){
+                        dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25,
+								5, 10, 13, 19, 21, 25, 22, 18, 15, 13 ];
+                        animationFlag = true;
+                    } else {
+                        dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+                        animationFlag = false;
+                    }
+                    
+
+
+                    // update all rects
+                    svg.selectAll("rect")
+                        .data(dataset) // new data bound : now update the visuals which depend on 'd' as d changes
+                        .transition()
+                        .attr("y", function(d) {
+			   		        return h - yScale(d);
+			            })
+                        .attr("height", function(d){
+                            return yScale(d);
+                        })
+                        .attr("fill", function(d) {
+					        return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			            });
+                    // update the labels
+
+                    svg.selectAll("text")
+                        .data(dataset) // new data bound : now update the visuals which depend on 'd' as d changes: dont think we need to update x
+                        .transition()
+                        .text(function(d) {
+                                return d;
+                        })
+                        .attr("x", function(d, i) {
+			   		        return xScale(i) + xScale.bandwidth() / 2;
+			            })
+                        .attr("y", function(d) {
+                                return h - yScale(d) + 14;
+                        });
+                    
+
+               });
+```
