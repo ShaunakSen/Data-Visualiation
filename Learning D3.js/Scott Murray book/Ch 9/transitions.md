@@ -295,3 +295,24 @@ the used `merge(bars)` to bring old bars back to the current selection again, al
 
 After merge, we transition the x,y,width,ht of **all** bars to the new values
 
+### Removing Values (and elements)
+
+Whenever there are more DOM elems than data values the `exit` selection contains references to those elems without data
+
+```javascript
+//Exit…
+bars.exit()				//References the exit selection (a subset of the update selection)
+	.transition()		//Initiates a transition on the one element we're deleting
+	.duration(500)
+	.attr("x", w)		//Move past the right edge of the SVG
+	.remove();   		//Deletes this element from the DOM once transition is complete
+```
+
+### Data join with keys
+
+By default join is by index order - first data value is bound to first DOM elem and so on..
+
+If data values and DOM elems are not in same order, u need a **key function**
+
+
+					

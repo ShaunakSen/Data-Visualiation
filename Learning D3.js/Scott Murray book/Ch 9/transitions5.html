@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>D3: Adding values and elements to a chart</title>
+		<title>D3: Removing values from a chart</title>
 		<script type="text/javascript" src="../d3.js"></script>
 		<style type="text/css">
 			/* No style rules here yet */
@@ -10,8 +10,7 @@
 	</head>
 	<body>
 	
-		<p>Click on this text to add a new data value to the chart!</p>
-		<p id="remove">Click on this text to remove a new data value to the chart!</p>
+		<p>Click on this text to remove a data value from the chart!</p>
 			
 		<script type="text/javascript">
 
@@ -82,10 +81,8 @@
 			d3.select("p")
 				.on("click", function() {
 
-					//Add one new value to dataset
-					var maxValue = 25;
-					var newNumber = Math.floor(Math.random() * maxValue);	//New random integer (0-24)
-					dataset.push(newNumber);			 			 		//Add new number to array
+					//Remove one value from dataset
+					dataset.shift();
 					
 					//Update scale domains
 					xScale.domain(d3.range(dataset.length));	//Recalibrate the x scale domain, given the new length of dataset
@@ -95,10 +92,7 @@
 					var bars = svg.selectAll("rect")			//Select all bars
 						.data(dataset);							//Re-bind data to existing bars, return the 'update' selection
 																//'bars' is now the update selection
-
-                    /* bars contains the update selection (21 items). bars.enter() contains the refererence to the new
-                    DOM elem (21st elem) */
-                    
+					
 					//Enter…
 					bars.enter()								//References the enter selection (a subset of the update selection)
 						.append("rect")							//Creates a new rect
@@ -113,7 +107,7 @@
 						.attr("fill", function(d) {				//Sets the fill value
 							return "rgb(0, 0, " + Math.round(d * 10) + ")";
 						})
-						.merge(bars)							//Merges the enter selection (new elem) with the update selection (all rects)
+						.merge(bars)							//Merges the enter selection with the update selection
 						.transition()							//Initiate a transition on all elements in the update selection (all rects)
 						.duration(500)
 						.attr("x", function(d, i) {				//Set new x position, based on the updated xScale
@@ -127,45 +121,32 @@
 							return yScale(d);
 						});
 
+					//Exit…
+					bars.exit()				//References the exit selection (a subset of the update selection)
+						.transition()		//Initiates a transition on the one element we're deleting
+						.duration(500)
+						.attr("x", w)		//Move past the right edge of the SVG
+						.remove();   		//Deletes this element from the DOM once transition is complete
+
 
 
 					//Update all labels
 					//
-					//Exercise: Modify this code to add a new label each time a new bar is added!
+					//Exercise: Modify this code to remove the correct label each time!
 					//
-
-                    //Select…
-					var labels = svg.selectAll("text")			//Select all labels
-						.data(dataset);							//Re-bind data to existing labels, return the 'update' selection
-																//'labels' is now the update selection
-
-                    labels.enter()
-                            .append("text")
-                            .text(function(d) {
+					svg.selectAll("text")
+					   .data(dataset)
+					   .transition()
+					   .duration(500)
+					   .text(function(d) {
 					   		return d;
-                            })
-					        .attr("text-anchor", "middle")
-                            .attr("x", function(d, i) {
-                                    return w;
-                            })
-                            .attr("y", function(d) {
-                                    return h - yScale(d) + 14;
-                            })
-                            .attr("font-family", "sans-serif")
-                            .attr("font-size", "11px")
-                            .attr("fill", "white")
-                            .merge(labels)
-                            .transition()
-                            .duration(500)
-                            .text(function(d) {
-                                    return d;
-                            })
-                            .attr("x", function(d, i) {
-                                    return xScale(i) + xScale.bandwidth() / 2;
-                            })
-                            .attr("y", function(d) {
-                                    return h - yScale(d) + 14;
-                            });
+					   })
+					   .attr("x", function(d, i) {
+							return xScale(i) + xScale.bandwidth() / 2;
+					   })
+					   .attr("y", function(d) {
+							return h - yScale(d) + 14;
+					   });
 
 				});
 
