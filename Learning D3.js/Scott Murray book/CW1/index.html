@@ -2,17 +2,27 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>D3: Line chart, labeled</title>
+        <title>D3: Line chart, labeled</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="http://d3js.org/d3.v4.min.js"></script>
-        <script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
 		<style type="text/css">
 			circle{
                 
                 opacity: 0.5;
+                display: inherit;
             }
+
+            circle:hover{
+                opacity: 0.9;            
+                }
 		</style>
 	</head>
 	<body>
+            <select name="Country" multiple id="country-dropdown" size="13" class="dropdown">
+            </select>
+                  
 		<script type="text/javascript">
 			//Width and height
 			var w = 800;
@@ -68,6 +78,10 @@
                 }
 
                 console.log(listOfCountries);
+
+
+
+                d3.select("body").append("br")
 				
                 // datset has been loaded
 
@@ -92,8 +106,6 @@
                         d3.max(dataset, function(d){ return d.generation_gwh_2015; })
                     ])
                 .range([2, 20]);
-
-                console.log(xScale(10), yScale(200));
 
                 //Define X axis
                 xAxis = d3.axisBottom()
@@ -142,7 +154,11 @@
                         var country_name = d.country;
                         var indexOfCountry = listOfCountries.indexOf(country_name);
                         return colorScheme[indexOfCountry];
-                    });
+                    })
+                    .append("title")
+                    .text(function(d){
+                        return d.country;
+                    })
 
                 // Create X axis
                 svg.append("g")
@@ -156,8 +172,53 @@
                     .attr("transform", "translate(" + (padding) + ",0)")
                     .call(yAxis);
 
+                // Y axis label
+
+                
+
+                // populate dropdown with countries
+                
+                var dropdown = document.getElementById("country-dropdown");
+                listOfCountries.forEach(function(country){
+                    var option = document.createElement("option");
+                    option.setAttribute("value", country);
+                    option.text = country;
+                    dropdown.appendChild(option);
+                });
+
+
+                // CODE TO HANDLE USER INPUT
+
+                d3.select("#country-dropdown").on("change", function(){
+                    // check which countries are selected
+                    var selectedCountries = [];
+                    for (var i=0; i<this.options.length; ++i){
+                        if (this.options[i].selected){
+                            selectedCountries.push(listOfCountries[i]);
+                        }
+                    }
+                    console.log("Selected countries:" + selectedCountries);
+
+                    // try to update the plot
+                    svg.selectAll("circle")
+                        .transition()
+                        .duration(1000)
+                        .style("display", "inherit")
+                        .style("opacity", 0.5)
+                        .filter(function(d){
+                            var currentCountry = d.country;
+                            if (selectedCountries.includes(currentCountry)){
+                                return d;
+                            }
+                        })
+                        .transition()
+                        .duration(1000)
+                        .style("opacity", 0)
+                        .style("display", "none");
+                    
+                })
 			});
 			
-		</script>
+        </script>
 	</body>
 </html>
