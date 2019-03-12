@@ -63,37 +63,15 @@
 			//Function for converting CSV values from strings to Dates and numbers
 
             var rowConverterFull = function(d) {
+                var key = 0;
                 return {
+                key: key+1,
                 country: d.country_long,
                 capacity: d.capacity_mw,
                 generation_gwh_2015: d.generation_gwh_2015,
                 estimated_generation: d.estimated_generation_gwh
                 };
             };
-
-            /*
-
-			var rowConverter = function(d) {
-
-                // convert to float
-
-                capacity_mw = parseFloat(d.capacity_mw);
-                generation_gwh_2015 = parseFloat(d.generation_gwh_2015);
-                estimated_generation_gwh = parseFloat(d.estimated_generation_gwh);
-
-                // filter condn: TO CHANGE LATER
-                if ((capacity_mw < capacity_max && capacity_mw > capacity_min) && 
-                    (estimated_generation_gwh < estimated_generation_gwh_max && estimated_generation_gwh > estimated_generation_gwh_min)) {
-                    return {
-                    country: d.country_long,
-                    capacity: capacity_mw,
-                    generation_gwh_2015: generation_gwh_2015,
-                    estimated_generation: estimated_generation_gwh
-				    };
-			    }
-            };
-
-            */
 
             // save full dataset elsewhere
             d3.csv("./../data_cleaned_for_viz2.csv", rowConverterFull, function(data) {
@@ -105,9 +83,15 @@
 			//Load in data
 			d3.csv("./../data_cleaned_for_viz2.csv", rowConverterFull, function(data) {
 				dataset = data;
+
+                // set keys
+
+                for (var i=0; i<dataset.length; ++i){
+                    dataset[i].key = i;
+                }
                 colorScheme = d3.schemeCategory10;
                 console.log(colorScheme);
-                console.table(dataset, ['country', 'capacity', 'generation_gwh_2015', 'estimated_generation']);
+                console.table(dataset, ['key','country', 'capacity', 'generation_gwh_2015', 'estimated_generation']);
 
                 // populate list of countries
 
@@ -124,6 +108,11 @@
                 d3.select("body").append("br")
 				
                 // datset has been loaded
+
+                //Define key function, to be used when binding data
+                var key = function(d) {
+                    return d.key;
+                };
 
                 // set up the scales
 
@@ -146,6 +135,8 @@
                         d3.max(dataset, function(d){ return d.generation_gwh_2015; })
                     ])
                 .range([2, 20]);
+
+                
 
                 //Define X axis
                 xAxis = d3.axisBottom()
@@ -178,7 +169,7 @@
                     .attr("id", "circles")
                     .attr("clip-path", "url(#chart-area)")
                     .selectAll("circle")
-                    .data(dataset)
+                    .data(dataset, key)
                     .enter()
                     .append("circle")
                     .attr("cx", function(d){
@@ -271,30 +262,7 @@
                         .style("display", "none");
                     
                 });
-                // CODE TO HANDLE USER INPUT -- CAPACITY SLIDER
-
-                d3.select("#capacity-min").on("change", function(){
-                    capacity_min = parseFloat(this.value);
-                    
-                    // try to update the plot
-                    svg.selectAll("circle")
-                        .transition()
-                        .duration(1000)
-                        .style("display", "inherit")
-                        .style("opacity", 0.5)
-                        .filter(function(d){
-                            if (d.capacity > capacity_min){
-                                console.log(d.capacity)
-                                return d;
-                            }
-                        })
-                        .transition()
-                        .duration(1000)
-                        .style("opacity", 0)
-                        .style("display", "none");
-
-                })
-
+               
 			});
 			
         </script>
