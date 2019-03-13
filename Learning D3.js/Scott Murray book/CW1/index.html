@@ -34,6 +34,16 @@
             #myRange{
                 width: 100px
             }
+
+            .line {
+				fill: none;
+				stroke: teal;
+				stroke-width: 0.5;
+			}
+			.safeLevel {
+				stroke: red;
+				stroke-dasharray: 2, 3;
+			}
 		</style>
 	</head>
 	<body>
@@ -41,8 +51,10 @@
             </select>
             <br>
             <input type="range" min="0" max="3000" value="1000" class="slider" id="capacity-min" width="100">
-
             <span id="capacity-min-value">100</span>
+            <input type="range" min="0" max="24000" value="12000" class="slider" id="estimation-min" width="100">
+            <span id="estimation-min-value">100</span>
+            
                   
 		<script type="text/javascript">
 			//Width and height
@@ -236,6 +248,15 @@
                     .attr("y", padding/2 - 10)
                     .text("Estimated generation");
 
+                // indicator line for slider
+                svg.append("line")
+					.attr("class", "line safeLevel")
+                    .attr("id", "vertical-line")
+					.attr("x1", padding + capacityMinSelected)
+					.attr("x2", padding + capacityMinSelected)
+					.attr("y1", h-padding)
+					.attr("y2", padding);
+
                 // populate dropdown with countries
                 
                 var dropdown = document.getElementById("country-dropdown");
@@ -248,9 +269,6 @@
 
 
                 // CODE TO HANDLE USER INPUT -- DROPDOWNS
-
-                
-                // 3. connect datasets across filters
 
                 d3.select("#country-dropdown").on("change", function(){
                     
@@ -298,6 +316,14 @@
                             }
                         })
                         .each(animateOut);
+
+                    svg.select("#vertical-line")
+                        .transition()
+                        .duration(1000)
+                        .attr("x1", xScale(padding + capacityMinSelected)-7)
+                        .attr("x2", xScale(padding + capacityMinSelected)-7)
+                        .attr("y1", h-padding)
+                        .attr("y2", padding);
                         
 
                     svg.selectAll("circle")
