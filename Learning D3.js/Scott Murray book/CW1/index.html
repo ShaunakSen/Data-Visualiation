@@ -8,7 +8,7 @@
 		<style type="text/css">
 			circle{
                 
-                opacity: 0.5;
+                opacity: 0.7;
                 display: inherit;
             }
 
@@ -40,7 +40,7 @@
             <select name="Country" multiple id="country-dropdown" size="13" class="dropdown">
             </select>
             <br>
-            <input type="range" min="0" max="3000" value="100" class="slider" id="capacity-min" width="100">
+            <input type="range" min="0" max="3000" value="1000" class="slider" id="capacity-min" width="100">
 
             <span id="capacity-min-value">100</span>
                   
@@ -111,7 +111,7 @@
 			//Load in data
 			d3.csv("./../data_cleaned_for_viz2.csv", rowConverterFull, function(data) {
 				dataset = data;
-                colorScheme = d3.schemeCategory10;
+                colorScheme = d3.schemeCategory20c;
                 console.log(colorScheme);
                 console.table(dataset, ['country', 'capacity', 'generation_gwh_2015', 'estimated_generation']);
 
@@ -138,20 +138,20 @@
                                      d3.min(dataset, function(d) { return d.capacity; }),
                                      d3.max(dataset, function(d) { return d.capacity; })
                                      ])
-								 .range([padding, w - padding * 2]);
+								 .rangeRound([padding, w - padding * 2]);
                 yScale = d3.scaleLinear()
                     .domain([
                         d3.min(dataset, function(d){ return d.estimated_generation; }),
                         d3.max(dataset, function(d){ return d.estimated_generation; })
                     ])
-                .range([h-padding, padding]);
+                .rangeRound([h-padding, padding]);
 
                 aScale = d3.scaleSqrt()
                     .domain([
                         d3.min(dataset, function(d){ return d.generation_gwh_2015; }),
                         d3.max(dataset, function(d){ return d.generation_gwh_2015; })
                     ])
-                .range([2, 20]);
+                .rangeRound([2, 30]);
 
                 //Define X axis
                 xAxis = d3.axisBottom()
@@ -265,20 +265,23 @@
 
                     // try to update the plot
                     svg.selectAll("circle")
-                        .transition()
-                        .duration(1000)
-                        .style("display", "inherit")
-                        .style("opacity", 0.5)
                         .filter(function(d){
                             var currentCountry = d.country;
                             if (selectedCountries.includes(currentCountry) || d.capacity < capacityMinSelected){
                                 return d;
                             }
                         })
-                        .transition()
-                        .duration(1000)
-                        .style("opacity", 0)
-                        .style("display", "none");
+                        .each(animateOut);
+
+                    svg.selectAll("circle")
+                        .filter(function(d){
+                            var currentCountry = d.country;
+                            if (!(selectedCountries.includes(currentCountry) || d.capacity < capacityMinSelected)){
+                                return d;
+                            }
+                        })
+                        .each(animateIn);
+                        
                     
                 });
 
@@ -288,22 +291,48 @@
                     console.log(capacityMinSelected);
                     // try to update the plot
                     svg.selectAll("circle")
-                        .transition()
-                        .duration(1000)
-                        .style("display", "inherit")
-                        .style("opacity", 0.5)
                         .filter(function(d){
                             var currentCountry = d.country;
                             if (selectedCountries.includes(currentCountry) || d.capacity < capacityMinSelected){
                                 return d;
                             }
                         })
-                        .transition()
-                        .duration(1000)
-                        .style("opacity", 0)
-                        .style("display", "none");
+                        .each(animateOut);
+                        
 
-                })
+                    svg.selectAll("circle")
+                    .filter(function(d){
+                        var currentCountry = d.country;
+                        if (!(selectedCountries.includes(currentCountry) || d.capacity < capacityMinSelected)){
+                            return d;
+                        }
+                    })
+                    .each(animateIn);
+                    
+                    
+                    
+
+                });
+
+                var animateIn = function(d, i) {
+                    d3.select(this)
+                        .transition()
+                        .delay(i * 10)
+                        .duration(1000)
+                        .ease(d3.easeBounce)
+                        .style("opacity", 0.7);
+                };
+
+                var animateOut = function(d, i) {
+                    d3.select(this)
+                        .transition()
+                        .delay(i * 10)
+                        .duration(1000)
+                        .ease(d3.easeBounce)
+                        .style("opacity", 0)
+                        .style("display", "hidden");
+                };
+
 
 			});
 			
