@@ -41,8 +41,8 @@
 				stroke-width: 0.5;
 			}
 			.safeLevel {
-				stroke: red;
-				stroke-dasharray: 2, 3;
+				stroke: #9C27B0;
+				
 			}
 		</style>
 	</head>
@@ -50,9 +50,9 @@
             <select name="Country" multiple id="country-dropdown" size="13" class="dropdown">
             </select>
             <br>
-            <input type="range" min="0" max="3000" value="1000" class="slider" id="capacity-min" width="100">
+            <input type="range" min="0" max="3000" value="0" class="slider" id="capacity-min" width="100">
             <span id="capacity-min-value">100</span>
-            <input type="range" min="0" max="24000" value="12000" class="slider" id="estimation-min" width="100">
+            <input type="range" min="0" max="24000" value="0" class="slider" id="estimation-min" width="100">
             <span id="estimation-min-value">100</span>
             
                   
@@ -74,6 +74,7 @@
             var listOfCountries = [];
 
             var capacityMinSelected = 0;
+            var estimationMinSelected = 0;
 
             var selectedCountries = [];
             
@@ -257,6 +258,14 @@
 					.attr("y1", h-padding)
 					.attr("y2", padding);
 
+                svg.append("line")
+					.attr("class", "line safeLevel")
+                    .attr("id", "horizontal-line")
+					.attr("x1", padding)
+					.attr("x2", w-padding*2)
+					.attr("y1", h-padding - estimationMinSelected)
+					.attr("y2", h-padding - estimationMinSelected);
+
                 // populate dropdown with countries
                 
                 var dropdown = document.getElementById("country-dropdown");
@@ -281,11 +290,12 @@
                     }
                     console.log("Selected countries:" + selectedCountries);
 
-                    // try to update the plot
+                    // Update plot
                     svg.selectAll("circle")
                         .filter(function(d){
                             var currentCountry = d.country;
-                            if (selectedCountries.includes(currentCountry) || d.capacity < capacityMinSelected){
+                            if (selectedCountries.includes(currentCountry) || 
+                            d.capacity < capacityMinSelected || d.estimated_generation < estimationMinSelected){
                                 return d;
                             }
                         })
@@ -294,7 +304,8 @@
                     svg.selectAll("circle")
                         .filter(function(d){
                             var currentCountry = d.country;
-                            if (!(selectedCountries.includes(currentCountry) || d.capacity < capacityMinSelected)){
+                            if (!(selectedCountries.includes(currentCountry) || 
+                            d.capacity < capacityMinSelected || d.estimated_generation < estimationMinSelected)){
                                 return d;
                             }
                         })
@@ -303,20 +314,14 @@
                     
                 });
 
+                // CODE TO HANDLE USER INPUT -- SLIDER - CAPACITY
+
                 d3.select("#capacity-min").on("change", function(){
                     capacityMinSelected = parseFloat(this.value);
                     d3.select("#capacity-min-value").html(capacityMinSelected)
                     console.log(capacityMinSelected);
-                    // try to update the plot
-                    svg.selectAll("circle")
-                        .filter(function(d){
-                            var currentCountry = d.country;
-                            if (selectedCountries.includes(currentCountry) || d.capacity < capacityMinSelected){
-                                return d;
-                            }
-                        })
-                        .each(animateOut);
 
+                    // update indicator
                     svg.select("#vertical-line")
                         .transition()
                         .duration(1000)
@@ -324,21 +329,79 @@
                         .attr("x2", xScale(padding + capacityMinSelected)-7)
                         .attr("y1", h-padding)
                         .attr("y2", padding);
+
+
+                    // try to update the plot
+                    svg.selectAll("circle")
+                        .filter(function(d){
+                            var currentCountry = d.country;
+                            if (selectedCountries.includes(currentCountry) || 
+                            d.capacity < capacityMinSelected || d.estimated_generation < estimationMinSelected){
+                                return d;
+                            }
+                        })
+                        .each(animateOut);
+
+                    
                         
 
                     svg.selectAll("circle")
                     .filter(function(d){
                         var currentCountry = d.country;
-                        if (!(selectedCountries.includes(currentCountry) || d.capacity < capacityMinSelected)){
+                        if (!(selectedCountries.includes(currentCountry) || 
+                        d.capacity < capacityMinSelected || d.estimated_generation < estimationMinSelected)){
                             return d;
                         }
                     })
                     .each(animateIn);
-                    
-                    
-                    
 
                 });
+
+
+                // CODE TO HANDLE USER INPUT -- SLIDER - ESTIMATION
+
+                d3.select("#estimation-min").on("change", function(){
+                    estimationMinSelected = parseFloat(this.value);
+                    d3.select("#estimation-min-value").html(estimationMinSelected)
+                    console.log(estimationMinSelected);
+
+                    // update indicator
+                    svg.select("#horizontal-line")
+                        .transition()
+                        .duration(1000)
+                        .attr("x1", padding)
+                        .attr("x2", w-padding*2)
+                        .attr("y1", yScale(estimationMinSelected))
+                        .attr("y2", yScale(estimationMinSelected));
+
+
+
+                    // try to update the plot
+                    svg.selectAll("circle")
+                        .filter(function(d){
+                            var currentCountry = d.country;
+                            if (selectedCountries.includes(currentCountry) || 
+                            d.capacity < capacityMinSelected || d.estimated_generation < estimationMinSelected){
+                                return d;
+                            }
+                        })
+                        .each(animateOut);
+
+                    
+                        
+
+                    svg.selectAll("circle")
+                    .filter(function(d){
+                        var currentCountry = d.country;
+                        if (!(selectedCountries.includes(currentCountry) || 
+                        d.capacity < capacityMinSelected || d.estimated_generation < estimationMinSelected)){
+                            return d;
+                        }
+                    })
+                    .each(animateIn);
+
+                });
+
 
                 var animateIn = function(d, i) {
                     d3.select(this)
