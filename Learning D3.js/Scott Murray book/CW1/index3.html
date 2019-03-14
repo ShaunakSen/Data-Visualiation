@@ -47,7 +47,7 @@
       <div class="card-body card-body-custom">
         <div class="list-group">
           <p class="list-group-item list-group-item-action">
-            Columns shifted - Some of the columns did not have a proper order.
+            Columns shifted - Some of the columns did not have a proper order   
           </p>
           <p class="list-group-item list-group-item-action">
             Redundant Data/ Summarization Errors
@@ -73,56 +73,49 @@
         </div>
       </div>
 
-      <div class="card-footer text-muted">
-          For this analysis I have assumed that the number of Appearances the character has in comic books is a good 
-          indicator of the popularity of the character
-        </div>
-
       </div>
 
     <div class="card">
-      <div class="card-header">Visualization 1</div>
-      <div class="card-body card-body-custom">
-        <h4 class="card-title">Bar Chart to understand how Character Alignment and Sex impact Popularity</h4>
 
-        <div class='tableauPlaceholder' id='viz1547160595239' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DV&#47;DVProjectAnalysis-MostpowerfulcharactersPopularity2&#47;Dashboard1-OverviewofPopularity&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='DVProjectAnalysis-MostpowerfulcharactersPopularity2&#47;Dashboard1-OverviewofPopularity' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DV&#47;DVProjectAnalysis-MostpowerfulcharactersPopularity2&#47;Dashboard1-OverviewofPopularity&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1547160595239');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1000px';vizElement.style.height='827px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-        <br>
         <div class="list-group">
             <p class="list-group-item list-group-item-action active">
-              Information and Conclusions from the above plot:
+              Redundant Data/ Summarization Errors
+            </p>
+            <img src="./img/diag1.png" alt="" class="error-img">
+            <div class="card-header image-caption">Image caption</div>
+            <br>
+            <p class="list-group-item list-group-item-action">
+                The column <b>country</b> in the original provided dataset had entries for <b>ALL INDIA</b>
+                and <b>ALL IRAQ</b> which were basically summarization records 
             </p>
             <p class="list-group-item list-group-item-action">
-                The Bar Charts provide an overview of the popularity of the characters based on their Character Alignment and Sex. 
-                It plots each character on the X axis and the Appearances on the Y axis. 
-                Sex and Character Alignment are represented by colors. 
+              This data was not useful for the visualization, so was removed
             </p>
             <p class="list-group-item list-group-item-action">
-              Most comic characters in our dataset are male 
-            </p>
-            <p class="list-group-item list-group-item-action">
-                Most comic characters are heroes, followed by neutral followed by villains
-            </p>
-            <p class="list-group-item list-group-item-action">
-                At a glance, it seems as if the villains and female characters have less popularity
+                The error was detected using a <code>Text Facet</code> on the <b>country</b> column and the entries were
+                deleted using OpenRefine using the facet
             </p>
           </div>
         </div>
         </div>
     </div>
     <div class="card">
-    <div class="card-header">Visualization 2</div>
-      <div class="card-body card-body-custom">
-        <h4 class="card-title">Stacked Bar Chart to understand how Character Alignment,Sex and Alive fields impact Popularity</h4>
-
-        <div class='tableauPlaceholder' id='viz1547169224560' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;WX&#47;WXZWYKS3H&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;WXZWYKS3H' /> <param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;WX&#47;WXZWYKS3H&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1547169224560');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1000px';vizElement.style.height='827px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-        <br>
         <div class="list-group">
             <p class="list-group-item list-group-item-action active">
-                Information and Conclusions from the above plot:
+                Multiple Representations
             </p>
+            <img src="./img/diag12.png" alt="" class="error-img">
+            <div class="card-header image-caption">Example of Multiple Representation on the <code>name</code> column</div>
+            <img src="./img/diag21.png" alt="" class="error-img">
+            <div class="card-header image-caption">Example of Multiple Representation on the <code>owner</code> column</div>
+            <img src="./img/diag22.png" alt="" class="error-img">
+            <div class="card-header image-caption">More examples of the same error using different keying functions for clustering</div>
+            <img src="./img/diag25.png" alt="" class="error-img">
+            <div class="card-header image-caption">Similar errors exist in the <code>source</code> column</div>
+            <img src="./img/diag24.png" alt="" class="error-img">
+            <div class="card-header image-caption">UK and GBR: another example of Multiple Representationon the <code>country</code> column</div>
             <p class="list-group-item list-group-item-action">
-                Stacked Bar Charts show how the popularity of characters is impacted by character alignment and sex of the character. We plot average number of appearances on the Y axis and Character Alignment on the X axis. The colors represent sex and alive (whether the character is deceased or living) fields respectively.
-
+                Facet + Cluster: diff keying functions
               </p>
             <p class="list-group-item list-group-item-action">
               There are no popular female villains
@@ -365,6 +358,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  
   </body>
 </html>

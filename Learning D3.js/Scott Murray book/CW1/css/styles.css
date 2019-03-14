@@ -5,3 +5,18 @@
 .card{
     margin-top: 20px !important;
 }
+
+.error-img{
+    width: 70%;
+    height: 60%;
+    text-align: center;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.image-caption{
+    width: 70%;
+    margin: auto;
+    border: 1px solid #c5bdbd;
+    font-weight: 400;
+}
