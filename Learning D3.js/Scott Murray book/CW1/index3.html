@@ -12,8 +12,10 @@
     <title>Open Data Innovation | Shaunak Sen</title>
 
     <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://bootswatch.com/4/lux/bootstrap.min.css" rel="stylesheet">
     <link href="./css/styles.css" rel="stylesheet">
+    <script type="text/javascript" src="http://d3js.org/d3.v4.min.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -47,9 +49,6 @@
       <div class="card-body card-body-custom">
         <div class="list-group">
           <p class="list-group-item list-group-item-action">
-            Columns shifted - Some of the columns did not have a proper order   
-          </p>
-          <p class="list-group-item list-group-item-action">
             Redundant Data/ Summarization Errors
           </p>
           <p class="list-group-item list-group-item-action">
@@ -62,13 +61,13 @@
               Out of Range values
           </p>
           <p class="list-group-item list-group-item-action">
-              Datetime errors
-          </p>
-          <p class="list-group-item list-group-item-action">
               Spelling mistakes
           </p>
           <p class="list-group-item list-group-item-action">
-              Special Characters and punctuations
+              Wrong Formats
+          </p>
+          <p class="list-group-item list-group-item-action">
+            Columns shifted - Some of the columns did not have a proper order           
           </p>
         </div>
       </div>
@@ -114,6 +113,8 @@
             <div class="card-header image-caption">Similar errors exist in the <code>source</code> column</div>
             <img src="./img/diag24.png" alt="" class="error-img">
             <div class="card-header image-caption">UK and GBR: another example of Multiple Representationon the <code>country</code> column</div>
+            <img src="./img/diag8.png" alt="" class="error-img">
+            <div class="card-header image-caption">Another example of Multiple Representation on the <code>country_long</code> column</div>
             <br>
             <p class="list-group-item list-group-item-action">
                 The errors were detected using OpenRefine. <code>Text Facets</code> were applied on each column and clusters 
@@ -174,139 +175,217 @@
                 </p>
               </div>
           </div>
+
+
+          <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Out of Range Values
+                </p>
+                <img src="./img/diag18.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>commissioning_year</code> has values like <code>200, 201</code> 
+                  which are out of range</div>
+                <img src="./img/diag20.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>commissioning_year</code> has values like <code>421421, 15123</code> 
+                  which are out of range. Also there are values : <code>1477, 1774</code> which do not make sense
+                  as power plants did not exist at that time. So they are set to blank</div>
+                <img src="./img/diag26.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>year_of_capacity_data</code> has <code>0</code> values
+                  which are out of range.</div>
+                <img src="./img/diag28.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>generation_gwh_2016</code>
+                  also has values which are out of range
+                </div>
+                <img src="./img/diag31.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>estimated_generation_gwh</code>
+                  also has values which are out of range</div>
+                <img src="./img/diag14.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>latitude</code> has a renge of <code>-80 to 80</code> which is 
+                  appropriate. Also the range of longitude has been checked and it falls between <code>-180 to 180</code>
+                  which is desirable</div>   
+                <br>
+                
+                <p class="list-group-item list-group-item-action">
+                    The errors were detected using OpenRefine. FIrst these cells were converted to numbers using
+                    <code>Edit cells -> Common transforms -> To number</code>
+                    Then this column was sorted (both ascending and descending) to observe values that are out of range
+                    and they were set to blank
+                  </p>
+                <p class="list-group-item list-group-item-action">
+                   This process was done for all numeric columns so that these outliers can be observed and handled
+                </p>
+              </div>
           </div>
 
-      
-
-      <div class="card">
-          <div class="card-header">Visualization 3.2</div>
-            <div class="card-body card-body-custom">
-              <h4 class="card-title">Scatter Plots to identify how factors like Fighting skills and 
-                Energy Projection skills affect popularity
-              </h4>
-              <div class='tableauPlaceholder' id='viz1547161874927' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DV&#47;DVProjectAnalysis-MostpowerfulcharactersPopularity2&#47;Dashboard4-Understandingotherfactorsthataffectpopularity&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='DVProjectAnalysis-MostpowerfulcharactersPopularity2&#47;Dashboard4-Understandingotherfactorsthataffectpopularity' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DV&#47;DVProjectAnalysis-MostpowerfulcharactersPopularity2&#47;Dashboard4-Understandingotherfactorsthataffectpopularity&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1547161874927');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1000px';vizElement.style.height='827px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-              <br>
-              <div class="list-group">
-                  <p class="list-group-item list-group-item-action active">
-                    Information about the plot and Conclusions from the above plot:
-                  </p>
-                  <p class="list-group-item list-group-item-action"> 
-                      The Scatter Plots plot the number of appearances on the Y axis and different factors like Strength, Intelligence, Fighting Skills and Energy Projection scores on the X axis. Also it makes use of the size of each circle to indicate a third variable like Durability and Speed.
-                    </p>
-                  <p class="list-group-item list-group-item-action">To prevent overfitting some data points have been manually removed from the plot. 
-                      This does not affect the overall trends and results of the plot and the statistical measures described
-                       below are for the entire dataset 
-                    </p>
-                  <p class="list-group-item list-group-item-action">
-                      In the above figure, the size of the circles represent Strength score
-                    </p>
-                  <p class="list-group-item list-group-item-action">
-                    High Fighting score positively impact Popularity
-                    - The R_squared value is 0.04 and the p-value is 0.05, which is significant
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      High Fighting Skills score does not necessarily mean that the character has high Strength, which
-                      seems counterintuitive and is an interesting observation.
-                      Some examples are Captain America, Deadpool and Wolverine
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      It appears as if Energy Projection skill has a negative impact on popularity.
-                      This also is slightly strange as Thanos, Thor, Iron Man and Doctor Strange are popular characters
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      However, the R_squared value is only 0.0023 and the p value is 0.6 which is not significant
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                    Most characters with high Energy Projection skills are also highly strong. This is expected
-                    as to emmit high-energy beams, their body must be accustomed for it
-                  </p>
+          <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Spelling Mistakes
+                </p>
+                <img src="./img/diag7.png" alt="" class="error-img">
+                <div class="card-header image-caption">Example of spelling mistakes in <code>country</code> column</div>
+                <img src="./img/diag15.png" alt="" class="error-img">
+                <div class="card-header image-caption">Example of spelling mistakes in <code>fuel1</code> column</div>
                 </div>
-            </div>
-      </div>
-
-      <div class="card">
-          <div class="card-header">Visualization 4 </div>
-            <div class="card-body card-body-custom">
-              <h4 class="card-title">
-                Bubble Chart to visulaize the most powerful heroes and villains and 
-                the most powerful male and female characters
-              </h4>
-              <div class='tableauPlaceholder' id='viz1547204282298' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;3G&#47;3GCDK7DN6&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;3GCDK7DN6' /> <param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;3G&#47;3GCDK7DN6&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1547204282298');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1000px';vizElement.style.height='827px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-              <div class="list-group">
-                  <p class="list-group-item list-group-item-action active">
-                    Information and Conclusions from the above plot:
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                    In both the plots, Strength is plotted on the X axis and Speed is plotted on the Y axis.
-                    In the first plot, the color of the circles represent Character Alignment, while in the second plots
-                    the color represents Sex of the characters
-                    The size of the circles represent Intelligence score
-                    To prevent overlapping and to observe the clusters, a random noise (jitter) has been added to the
-                    strength and speed scores. However the tooltip that is generated when a user hovers over a point 
-                    represents the correct value for the Strength and Speed.
-
-                    Also, users can use the filter to see where their favorite superheroes fall on the plot.
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      Towards the right-upper part of the plots, we can see a cluster of data points which are large in area. These are the characters who are the most powerful, i.e. have high Strength, Speed and Intelligence
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      From the first plot we observe that The Watcher, Nova and Rogue are some of the most powerful superheroes
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      Galactus is one of the powerful characters who is of neutral character alignment 
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      Thanos is the most powerful super villain
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      From the second plot we observe that, of the most powerful characters, only Rogue is the female
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      Another interesting observation from this plot is there are very few female characters who are highly intelligent. Thus the comic world may be gender biased and we kind of intuitively know that the most popular intelligent characters like Tony Stark, Dr. Bruce Banners, Hank Pym are all males.
-                  </p>
+                <img src="./img/diag9.png" alt="" class="error-img">
+                <div class="card-header image-caption">Example of spelling mistakes in<code>country_long</code> column</div>
+                <br>
+                <p class="list-group-item list-group-item-action">
+                  The errors were detected using OpenRefine. <code>Text Facets</code> were applied on each column and clusters 
+                  were observed
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    Various <code>Keying Functions</code> were applied to change how aggresively the clustering occured.
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    <code>ngram fingerprint</code> keying function with <code>Ngram Size = 2</code> was used for <code>country</code> column
+                    <code>metaphone3</code> was used for <code>fuel1</code> column
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    For the clusters the option: <code>Browse Cluster</code> provided by OpenRefine proved to be very useful as
+                    it provided better context and helped ensure that dissimilar values are not clustered together.
+                </p>
+              </div>
+          </div>
+          
+          <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Wrong Formats
+                </p>
+                <img src="./img/diag17.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  <code>commissioning_year</code> had many entries which were fractions. So a transform
+                  was applied on the entire column using GREL: <code>round(value)</code> to convert them to integers
                 </div>
-            </div>
-      </div>
+                <img src="./img/diag29.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  <code>estimated_generation_gwh</code> had many entries which have units mentioned in brackets
+                </div>
+                <img src="./img/diag30.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  Dealing with numbers with units in <code>estimated_generation_gwh</code>
+                </div>
+                <br>
+                <img src="./img/regex_punc.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  <code>owner and name</code> columns had a lot of special characters which are filtered.
+                </div>
+                <br>
+                <p class="list-group-item list-group-item-action">
+                  The errors were detected using OpenRefine. The values were converted to numbers and 
+                  <code>Numeric Facets</code> were applied to filter out the non numeric values
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    To filter out the fractions a transform
+                    was applied on the entire column using GREL: <code>round(value)</code> to convert them to integers
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    GREL supports <code>regular expressions</code> which helped filter out text (units) from numeric values
+                </p>
+                <p class="list-group-item list-group-item-action">
+                  GREL <code>replace method</code> and <code>regular expressions</code> was used to filter out
+                  special characters from <code>owner and name</code> columns
+                </p>
+              </div>
+          </div>
+
+          <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Columns Shifted
+                </p>
+                <img src="./img/col_shift.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  For some rows in the dataset columns are shifted, so there is an extra column. Most values in this
+                  column are blank, but some rows have numeric values which signify that columns have been shifted
+                  for those rows. We flag these rows using OpenRefine 
+                </div>
+                <img src="./img/diag4.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  Of these problematic rows, there are <code>214</code> such rows in which the <code>country_long</code>
+                  column is <code>blank</code> and the columns are shifted to the right, so that <code>name</code> holds
+                  value of <code>country_long, gppd_idnr</code> holds value of <code>name</code> and so on
+                </div>
+                <img src="./img/diag5.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  Of these problematic rows, there are <code>153</code> such rows in which the columns are shifted from
+                  the <code>country</code> column. This means that <code>country_long</code> holds value of 
+                  <code>country, name</code> holds value of <code>country_long</code> and so on  
+                </div>
+                <br>
+                <br>
+                <p class="list-group-item list-group-item-action">
+                  The errors were solved using OpenRefine and LibreOffice calc
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    The errors were detected using various Facets and Sort options in OpenRefine. Having detected the errors
+                    they were flagged and exported to a csv file. These rows were deleted from the original file
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    LibreOffice calc was used to shift the columns appropriately and the clean file was then merged back
+                    with the original file
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    OpenRefine helped detect where the problems were in the dataset and flag them. LibreOffice calc provided 
+                    an easy way to select the shifted columns and shift them. After merging the clean dataset, OpenRefine was used
+                    to verify that the problem did not persist
+                </p>
+              </div>
+          </div>
+
 
       <div class="card">
-          <div class="card-header">Visualization 5</div>
-            <div class="card-body card-body-custom">
-              <h4 class="card-title">
-                Packed Bubble Chart to explore how popular the most powerful characters are
-              </h4>
-              <p>Now that we have found out who are the most powerful characters in terms of Strength, Intelligence and Speed, it is of interest to explore and find how popular these characters are</p>
-              <div class='tableauPlaceholder' id='viz1547158695472' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DV&#47;DVProjectAnalysis-MostpowerfulcharactersPopularity&#47;Dashboard6&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='DVProjectAnalysis-MostpowerfulcharactersPopularity&#47;Dashboard6' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DV&#47;DVProjectAnalysis-MostpowerfulcharactersPopularity&#47;Dashboard6&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1547158695472');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1000px';vizElement.style.height='827px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>              <div class="list-group">
-              <br>
-              
+          <div class="list-group">
               <p class="list-group-item list-group-item-action active">
-                  Information and Conclusions from the above plot:
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      The size represents the popularity (number of appearances), while the color represents the sex of the character
-                  </p>  
-                  <p class="list-group-item list-group-item-action">
-                    Even though all the characters in the plot are extremely powerful, none of them, apart from Rogue have good Popularity  
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      Rogue is very popular and is the only female character among the most powerful ones. This is another interesting finding
-                  </p>
+                  Visualization
+              </p>
+          </div>
+            <div class="card-body card-body-custom">
+              <h4 class="card-title">
+                Bubble chart to explore the generation metrics vs capacity for different countries
+              </h4>
+              <p>
+              In this bubble chart we wish to explore how <code>Estimated generation (in gwh)</code>
+                changes with respect to <code>Capacity (in mw)</code> for different countries.
+                We also want to represent the information of <code>generation (in gwh) for the year 2015</code>                
+              </p>
+              <div class="row">
+                <div class="col-md-8">
+                    <svg id="svg-element" class="align-middle">
+                      </svg>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="country-dropdown">Example multiple select</label>
+                        <select multiple="" class="form-control" id="country-dropdown">
+                        </select>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                          <label for="capacity-min">Capacity Min</label>
+                          <span id="capacity-min-value">Selected Value: 0</span>
+                          <input type="range" class="form-control-range" id="capacity-min" min="0" max="3000" value="0">
+                        </div>
+                      </form>
+                      <form>
+                          <div class="form-group">
+                            <label for="estimation-min">Estimation Min</label>
+                            <span id="estimation-min-value">Selcted Value: 0</span>
+                            <input type="range" class="form-control-range" id="estimation-min" min="0" max="24000" value="0">
+                          </div>
+                      </form>
+                      <div class="label-row" id="label-row">
+                      </div>
+                </div>
                   
-                </div>
-            </div>
-      </div>
+              </div>
+              
 
-      <div class="card">
-          <div class="card-header">Visualization 6</div>
-            <div class="card-body card-body-custom">
-              <h4 class="card-title">
-                Heat Map - Among the top 50 most popular characters, who are the most powerful ones?
-              </h4>
-              <p>Now that we have answered some questions about comic charaters and explored some attributes in detail, the user can interact with the data themseleves and answer specific points of interest</p>
-              <div class='tableauPlaceholder' id='viz1547159398346' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;H5&#47;H5QBBG5JD&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;H5QBBG5JD' /> <param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;H5&#47;H5QBBG5JD&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1547159398346');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1000px';vizElement.style.height='827px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-              <br>
+
+
               <p class="list-group-item list-group-item-action active">
-                  Information and Conclusions from the above plot:
+                  Visualization description
                 </p>
                 <p class="list-group-item list-group-item-action">
                   The Heat Map has been arranged such that the charaters at the top are the most powerful ones.
@@ -369,6 +448,8 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="./js/app.js"></script>
   </body>
 </html>
