@@ -65,8 +65,8 @@ circle:hover{
 }
 
 .demo{
-    background-color: #7D80DA #937666 #3D3A4B
-        #D5A021 #f08453 #072986 #1C0B19 #4EA699 #04724D
+    background-color: #7D80DA #937666 #69686b
+        #D5A021 #f08453 #072986 #1C0B19 #4EA699 #44c309
         #92140C #BE5A38 #531253 #f15353 #A663CC #6B2B06
         #FF2C55
 }
@@ -80,6 +80,7 @@ circle.hidden{
     display: block;
     font-size: 10px;
     justify-content: end;
+    
 }
 
 .badge:empty {
@@ -100,4 +101,16 @@ circle.hidden{
 #estimation-min-value{
     margin-left: 20px;
 
+}
+
+.row.dark {
+    background-color: #0c0c0c;
+}
+
+.dark>h6{
+    color: #919aa1 !important;
+}
+
+.label-element.dark{
+    color: #919aa1;
 }

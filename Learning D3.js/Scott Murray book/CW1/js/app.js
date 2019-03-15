@@ -22,8 +22,8 @@ var selectedCountries = listOfCountries;
 
 
 colorScheme2 = [
-    "#7D80DA", "#072986","#3D3A4B",
-    "#D5A021", "#f08453", "#937666", "#4EA699", "#FF2C55", "#04724D",
+    "#7D80DA", "#072986","#69686b",
+    "#D5A021", "#f08453", "#937666", "#4EA699", "#FF2C55", "#44c309",
     "#92140C", "#BE5A38", "#531253", "#f15353", "#A663CC", "#6B2B06"
 ];
 
@@ -32,6 +32,8 @@ colorScheme2 = [
 
 var rowConverterFull = function(d) {
     return {
+    name: d.name,
+    owner: d.owner,
     country: d.country_long,
     capacity: parseFloat(d.capacity_mw),
     generation_gwh_2015: parseFloat(d.generation_gwh_2015),
@@ -39,7 +41,7 @@ var rowConverterFull = function(d) {
     };
 };
 
-/*
+
 
 var rowConverter = function(d) {
 
@@ -50,32 +52,33 @@ var rowConverter = function(d) {
     estimated_generation_gwh = parseFloat(d.estimated_generation_gwh);
 
     // filter condn: TO CHANGE LATER
-    if ((capacity_mw < capacity_max && capacity_mw > capacity_min) && 
-        (estimated_generation_gwh < estimated_generation_gwh_max && estimated_generation_gwh > estimated_generation_gwh_min)) {
+    if (capacity_mw > 0 && estimated_generation_gwh >0 && generation_gwh_2015 >0) {
         return {
-        country: d.country_long,
-        capacity: capacity_mw,
-        generation_gwh_2015: generation_gwh_2015,
-        estimated_generation: estimated_generation_gwh
+            name: d.name,
+            owner: d.owner,
+            country: d.country_long,
+            capacity: parseFloat(d.capacity_mw),
+            generation_gwh_2015: parseFloat(d.generation_gwh_2015),
+            estimated_generation: parseFloat(d.estimated_generation_gwh)
         };
     }
 };
 
-*/
+
 
 // save full dataset elsewhere
-d3.csv("./../data_cleaned_for_viz4.csv", rowConverterFull, function(data) {
+d3.csv("./../Clean_data_final.csv", rowConverter, function(data) {
     fullDataset = data;
     console.log("Full dataset saved");
 });
 
     
 //Load in data
-d3.csv("./../data_cleaned_for_viz4.csv", rowConverterFull, function(data) {
+d3.csv("./../Clean_data_final.csv", rowConverter, function(data) {
     dataset = data;
     colorScheme = d3.schemeCategory20c;
     console.log(colorScheme);
-    console.table(dataset, ['country', 'capacity', 'generation_gwh_2015', 'estimated_generation']);
+    console.table(dataset, ['name', 'owner', 'country', 'capacity', 'generation_gwh_2015', 'estimated_generation']);
 
     // populate list of countries
 
@@ -143,7 +146,7 @@ d3.csv("./../data_cleaned_for_viz4.csv", rowConverterFull, function(data) {
 
     svg.append("g")
         .attr("id", "circles")
-        .attr("clip-path", "url(#chart-area)")
+        .attr("clip-path", "url(#)")
         .selectAll("circle")
         .data(dataset)
         .enter()
@@ -166,7 +169,9 @@ d3.csv("./../data_cleaned_for_viz4.csv", rowConverterFull, function(data) {
         .text(function(d){
             return "Country: " + d.country + "\nCapacity " + d.capacity + 
             "\nEstimated generation: " + Math.round(d.estimated_generation) + 
-            "\nGeneration 2015" + Math.round(d.generation_gwh_2015);
+            "\nGeneration 2015: " + Math.round(d.generation_gwh_2015) +
+            "\nName of plant: " + d.name +
+            "\nOwner: " + d.owner;
         })
 
     // Create X axis
@@ -390,6 +395,31 @@ d3.csv("./../data_cleaned_for_viz4.csv", rowConverterFull, function(data) {
     }
 
     labelElement.innerHTML = labelHTML;
+
+
+    d3.select("#theme-selector").on("change", function(){
+        if (this.checked){
+            d3.select("#main-row")
+                .attr("class", "row dark");
+
+            d3.select("#label-row")
+                .selectAll("h6")
+                .attr("class", "label-element dark");
+
+            svg.selectAll("text")
+                .attr("fill", "#919aa1");
+        } else{
+            d3.select("#main-row")
+                .attr("class", "row");
+
+            d3.select("#label-row")
+                .selectAll("h6")
+                .attr("class", "label-element");
+
+            svg.selectAll("text")
+                .attr("fill", "#000");
+        }
+    });
 
 
 

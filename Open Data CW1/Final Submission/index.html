@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Open Data Innovation | Shaunak Sen</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link href="./css/lux.min.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+    <script type="text/javascript" src="./js/d3.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="#">Data Cleaning and Visualization</a>
+
+    </nav>
+
+    <div class="jumbotron">
+      <h3 class="display-6">Open Data Innovation Coursework</h3>
+      <p class="lead">By: Shaunak Sen</p>
+      <p class="lead">Email: ss8n18@soton.ac.uk</p>
+      <p class="lead">Student Id: 30508959</p>
+      <hr class="my-4">
+      <h4>Tools and technologies used</h4>
+      <div class="list-group">
+        <a href="http://openrefine.org/" class="list-group-item list-group-item-action">Open Refine</a>
+        <a href="https://d3js.org/" class="list-group-item list-group-item-action">D3.js</a>
+        <a href="https://www.libreoffice.org/discover/calc/" class="list-group-item list-group-item-action">LibreOffice Calc</a>
+        <a href="https://www.libreoffice.org/discover/calc/" class="list-group-item list-group-item-action">Bootstrap</a>
+      </div>
+      <br>
+      <p>For the visualization, I have taken references from the book: <a href="https://alignedleft.com/work/d3-book-2e">
+        Interactive Data Visualization for the Web by Scott Murray</a> 
+      </p>
+      <p>For the website, I have used <a href="https://bootswatch.com/lux/">this</a> theme</p>
+      
+    </div>
+
+    <div class="card">
+    <div class="card-header">Errors detected in the dataset</div>
+      <div class="card-body card-body-custom">
+        <div class="list-group">
+          <p class="list-group-item list-group-item-action">
+            Redundant Data/ Summarization Errors
+          </p>
+          <p class="list-group-item list-group-item-action">
+              Multiple Representations
+          </p>
+          <p class="list-group-item list-group-item-action">
+              Blank/Missing Values
+          </p>
+          <p class="list-group-item list-group-item-action">
+              Out of Range values
+          </p>
+          <p class="list-group-item list-group-item-action">
+              Spelling mistakes
+          </p>
+          <p class="list-group-item list-group-item-action">
+              Wrong Formats
+          </p>
+          <p class="list-group-item list-group-item-action">
+            Columns shifted - Some of the columns did not have a proper order           
+          </p>
+        </div>
+      </div>
+
+      </div>
+
+    <div class="card">
+
+        <div class="list-group">
+            <p class="list-group-item list-group-item-action active">
+              ERROR TYPE: Redundant Data/ Summarization Errors
+            </p>
+            <img src="./img/summarization record.png" alt="" class="error-img">
+            <div class="card-header image-caption"><code>ALL INDIA and ALL IRAQ</code> are summarization records</div>
+            <br>
+            <p class="list-group-item list-group-item-action">
+                The column <code>country</code> in the original provided dataset had entries for <code>ALL INDIA</code>
+                and <code>ALL IRAQ</code> which were basically summarization records 
+            </p>
+            <p class="list-group-item list-group-item-action">
+              This data was not useful for the visualization, so was removed
+            </p>
+            <p class="list-group-item list-group-item-action">
+                The error was detected using a <code>Text Facet</code> on the <code>country</code> column and the entries were
+                deleted using OpenRefine using the <code>remove all matching rows</code> option after applying the filters
+            </p>
+          </div>
+        </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="list-group">
+            <p class="list-group-item list-group-item-action active">
+                ERROR TYPE: Multiple Representations
+            </p>
+            <img src="./img/diag12.png" alt="" class="error-img">
+            <div class="card-header image-caption">Example of Multiple Representation on the <code>name</code> column</div>
+            <img src="./img/diag21.png" alt="" class="error-img">
+            <div class="card-header image-caption">Example of Multiple Representation on the <code>owner</code> column</div>
+            <img src="./img/diag22.png" alt="" class="error-img">
+            <div class="card-header image-caption">More examples of the same error using different keying functions for clustering</div>
+            <img src="./img/diag25.png" alt="" class="error-img">
+            <div class="card-header image-caption">Similar errors exist in the <code>source</code> column</div>
+            <img src="./img/diag24.png" alt="" class="error-img">
+            <div class="card-header image-caption">UK and GBR: another example of Multiple Representationon the <code>country</code> column</div>
+            <img src="./img/diag8.png" alt="" class="error-img">
+            <div class="card-header image-caption">Another example of Multiple Representation on the <code>country_long</code> column</div>
+            <br>
+            <p class="list-group-item list-group-item-action">
+                The errors were detected using OpenRefine. <code>Text Facets</code> were applied on each column and clusters 
+                were observed
+              </p>
+            <p class="list-group-item list-group-item-action">
+                Various <code>Keying Functions</code> were applied to change how aggresively the clustering occured.
+            </p>
+            <p class="list-group-item list-group-item-action">
+                <code>fingerprint</code> keying function generally worked well for <code>name</code> column. But 
+                <code>metaphone3</code> worked better for <code>owner and source</code> columns
+            </p>
+            <p class="list-group-item list-group-item-action">
+                For the clusters the option: <code>Browse Cluster</code> provided by OpenRefine proved to be very useful as
+                it provided better context and helped ensure that dissimilar values are not clustered together.
+            </p>
+            <p class="list-group-item list-group-item-action">
+                OpenRefine provides an option to edit a cell and apply the same change to all identical cells which was used to
+                change the values of <code>UK to GBR</code>
+            </p>
+          </div>
+      </div>
+      </div>
+      <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Blank/Missing Values
+                </p>
+                <img src="./img/diag10.png" alt="" class="error-img">
+                <div class="card-header image-caption">Example of  Blank values in the <code>country_long</code> column</div>
+                <img src="./img/diag16.png" alt="" class="error-img">
+                <div class="card-header image-caption">The column <code>fuel4</code> has all blank values</div>
+                <img src="./img/diag29.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>NaN</code> values present in some generation metrics columns</div>
+                <img src="./img/diag32.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>198</code> rows in which all numeric generation metrics are blank</div>
+                <br>
+                <p class="list-group-item list-group-item-action">
+                    The errors were detected using OpenRefine. Blank values were there in 
+                    <code>country_long</code> column. These were replaced with the correct value by applying two 
+                    <code>Text Facets</code> - one on the <code>country</code> column and one on the 
+                    <code>country_long</code> column and then filling the blank value using the correct value observed
+                    in the <code>country_long facet.</code>
+                    OpenRefine provides an option to edit a cell and apply the same change to all identical cells which was used
+                  </p>
+                <p class="list-group-item list-group-item-action">
+                   The column <code>fuel4</code> was removed as it contained all blank values
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    <code>NaN</code> values were present in some of the numeric columns.
+                    There were not too many of these so these values were replaced by blank values
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    After replacing the <code>NaN</code> values in the columns, numeric facets were applied on the columns:
+                    <code>generation_gwh_2013, generation_gwh_2014, generation_gwh_2015, generation_gwh_2016 and 
+                        estimated_generation_gwh</code>. It is observed that for <code>198</code> rows all these columns
+                        are blank. So they will not be contributing anything to the visualization. So they are removed
+                </p>
+                <p class="list-group-item list-group-item-action">Blank values in the columns like <code>name, owner</code> were set to <code>Unknown</code> 
+                so that they provide better user experience compared to blank values
+                </p>
+              </div>
+          </div>
+
+
+          <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Out of Range Values
+                </p>
+                <img src="./img/diag18.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>commissioning_year</code> has values like <code>200, 201</code> 
+                  which are out of range</div>
+                <img src="./img/diag20.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>commissioning_year</code> has values like <code>421421, 15123</code> 
+                  which are out of range. Also there are values : <code>1477, 1774</code> which do not make sense
+                  as power plants did not exist at that time. So they are set to blank</div>
+                <img src="./img/diag26.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>year_of_capacity_data</code> has values which are <code>0</code> 
+                  which are out of range.</div>
+                <img src="./img/diag28.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>generation_gwh_2016</code>
+                  also has values which are out of range
+                </div>
+                <img src="./img/diag31.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>estimated_generation_gwh</code>
+                  also has values which are out of range</div>
+                <img src="./img/diag14.png" alt="" class="error-img">
+                <div class="card-header image-caption"><code>latitude</code> has a renge of <code>-80 to 80</code> which is 
+                  appropriate. Also the range of longitude has been checked and it falls between <code>-180 to 180</code>
+                  which is desirable</div>   
+                <br>
+                
+                <p class="list-group-item list-group-item-action">
+                    The errors were detected using OpenRefine. FIrst these cells were converted to numbers using
+                    <code>Edit cells -> Common transforms -> To number</code>
+                    Then this column was sorted (both ascending and descending) to observe values that are out of range
+                    and they were set to blank
+                  </p>
+                <p class="list-group-item list-group-item-action">
+                   This process was done for all numeric columns so that these outliers can be observed and handled
+                </p>
+              </div>
+          </div>
+
+          <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Spelling Mistakes
+                </p>
+                <img src="./img/diag7.png" alt="" class="error-img">
+                <div class="card-header image-caption">Example of spelling mistakes in <code>country</code> column</div>
+                <img src="./img/diag15.png" alt="" class="error-img">
+                <div class="card-header image-caption">Example of spelling mistakes in <code>fuel1</code> column</div>
+                </div>
+                <img src="./img/diag9.png" alt="" class="error-img">
+                <div class="card-header image-caption">Example of spelling mistakes in <code>country_long</code> column</div>
+                <br>
+                <p class="list-group-item list-group-item-action">
+                  The errors were detected using OpenRefine. <code>Text Facets</code> were applied on each column and clusters 
+                  were observed
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    Various <code>Keying Functions</code> were applied to change how aggresively the clustering occured.
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    <code>ngram fingerprint</code> keying function with <code>Ngram Size = 2</code> was used for <code>country</code> column
+                    <code>metaphone3</code> was used for <code>fuel1</code> column
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    For the clusters the option: <code>Browse Cluster</code> provided by OpenRefine proved to be very useful as
+                    it provided better context and helped ensure that dissimilar values are not clustered together.
+                    OpenRefine provides an option to edit a cell and apply the same change to all identical cells which was used
+                </p>
+              </div>
+          </div>
+          
+          <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Wrong Formats
+                </p>
+                <img src="./img/diag17.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  <code>commissioning_year</code> had many entries which were fractions. So a transform
+                  was applied on the entire column using GREL: <code>round(value)</code> to convert them to integers
+                </div>
+                <img src="./img/diag29.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  <code>estimated_generation_gwh</code> had many entries which have units mentioned in brackets
+                </div>
+                <img src="./img/diag30.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  Dealing with numbers with units in <code>estimated_generation_gwh</code>
+                </div>
+                <br>
+                <img src="./img/regex_punc.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  <code>owner and name</code> columns had a lot of special characters which are filtered.
+                </div>
+                <br>
+                <p class="list-group-item list-group-item-action">
+                  The errors were detected using OpenRefine. The values were converted to numbers and 
+                  <code>Numeric Facets</code> were applied to filter out the non numeric values
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    To filter out the fractions a transform
+                    was applied on the entire column using GREL: <code>round(value)</code> to convert them to integers
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    GREL supports <code>regular expressions</code> which helped filter out text (units) from numeric values
+                </p>
+                <p class="list-group-item list-group-item-action">
+                  GREL <code>replace method</code> and <code>regular expressions</code> was used to filter out
+                  special characters from <code>owner and name</code> columns
+                </p>
+              </div>
+          </div>
+
+          <div class="card">
+            <div class="list-group">
+                <p class="list-group-item list-group-item-action active">
+                    ERROR TYPE: Columns Shifted
+                </p>
+                <img src="./img/col_shift.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  For some rows in the dataset columns are shifted, so there is an extra column. Most values in this
+                  column are blank, but some rows have numeric values which signify that columns have been shifted
+                  for those rows. We flag these rows using OpenRefine 
+                </div>
+                <img src="./img/diag4.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  Of these problematic rows, there are <code>214</code> such rows in which the <code>country_long</code>
+                  column is <code>blank</code> and the columns are shifted to the right, so that <code>name</code> holds
+                  value of <code>country_long, gppd_idnr</code> holds value of <code>name</code> and so on
+                </div>
+                <img src="./img/diag5.png" alt="" class="error-img">
+                <div class="card-header image-caption">
+                  Of these problematic rows, there are <code>153</code> such rows in which the columns are shifted from
+                  the <code>country</code> column. This means that <code>country_long</code> holds value of 
+                  <code>country, name</code> holds value of <code>country_long</code> and so on  
+                </div>
+                <br>
+                <br>
+                <p class="list-group-item list-group-item-action">
+                  The errors were solved using OpenRefine and LibreOffice calc
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    The errors were detected using various Facets and Sort options in OpenRefine. Having detected the errors
+                    they were flagged and exported to a csv file. These rows were deleted from the original file
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    LibreOffice calc was used to shift the columns appropriately and the clean file was then merged back
+                    with the original file
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    OpenRefine helped detect where the problems were in the dataset and flag them. LibreOffice calc provided 
+                    an easy way to select the shifted columns and shift them. After merging the clean dataset, OpenRefine was used
+                    to verify that the problem did not persist
+                </p>
+              </div>
+          </div>
+
+
+      <div class="card">
+          <div class="list-group">
+              <p class="list-group-item list-group-item-action active">
+                  Visualization
+              </p>
+          </div>
+            <div class="card-body card-body-custom">
+              <h4 class="card-title">
+                Bubble chart to explore the generation metrics vs capacity for different countries
+              </h4>
+              <p>
+              In this bubble chart we wish to explore how <code>Estimated generation (in gwh)</code>
+                changes with respect to <code>Capacity (in mw)</code> for different countries.
+                We also want to represent the information of <code>generation (in gwh) for the year 2015</code>                
+              </p>
+              <p>
+                For generating the visualization I have filtered for the following condition:
+                <code>capacity > 0 and estimated_generation_gwh > 0 and generation_gwh_2015 > 0</code>
+
+              </p>
+              <div class="row" id="main-row">
+                <div class="col-md-8">
+                    <svg id="svg-element" class="align-middle">
+                      </svg>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="country-dropdown">Select the countries</label>
+                        <select multiple="" class="form-control" id="country-dropdown">
+                        </select>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                          <label for="capacity-min">Capacity Min</label>
+                          <span id="capacity-min-value">Selected Value: 0</span>
+                          <input type="range" class="form-control-range" id="capacity-min" min="0" max="3000" value="0">
+                        </div>
+                      </form>
+                      <form>
+                          <div class="form-group">
+                            <label for="estimation-min">Estimation Min</label>
+                            <span id="estimation-min-value">Selcted Value: 0</span>
+                            <input type="range" class="form-control-range" id="estimation-min" min="0" max="24000" value="0">
+                          </div>
+                      </form>
+                      <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="" id="theme-selector">
+                            Dark Theme
+                          </label>
+                        </div>
+                      <div class="label-row" id="label-row">
+                      </div>
+                </div>
+                  
+              </div>
+              
+
+
+
+              <p class="list-group-item list-group-item-action active">
+                  Visualization description
+                </p>
+                <p class="list-group-item list-group-item-action">
+                  In the above Bubble Chart the X axis represents the <code>Capacity of thr plant (in mw)</code> The Y axis represents the <code>Estimated generation (in gwh)</code>
+                  The color of each circle represents a <code>country</code>. The size (area) of the bubble refers proportionally to the <code>generation (in gwh) for 2015</code>
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    The first filter is a multiple-select dropdown where users can select the countries they want to view that data for
+                </p>
+                <p class="list-group-item list-group-item-action">
+                  The other two filters are sliders by which users can set a minimum threshold for <code>capacity and estimated generation</code>
+                  The chart has a lot of data points in the region <code>capacity < 1000 and estimated_generation < 4000</code> So these filters will help the user
+                  view and explore specific portions of the chart 
+                </p>
+                <p class="list-group-item list-group-item-action">
+                  Users can hover over specific bubbles to view more information about the plants
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    I have used a color-blind friendly palette for the chart generated from <a href="https://coolors.co/">this source</a>
+
+                    Additionally there is an option for a dark theme for the visualization to 
+                    help users who perceive contrast better
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    While animating in or out of the chart, all bubbles do not appear or disappear at the same time. They do so with a delay which helps the user perceive
+                    which bubble came from where and not lose perspective.
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    From the plot one can easily understand the trend between <code>capacity and estimated generation</code>.
+                    Most plants with low capacity tend to have low estimated generation and also low generation value for 2015.
+                    Plants of India are of low capacity but have high values of estimated generation (even though the generation for 2015 was low)
+                    Most of the larger bubbles are towards the right of the chart which further illustrates the trend
+                </p>
+                </div>
+            </div>
+      </div>
+
+      
+    
+    <script src="./js/jquery.min.js"></script>
+
+    <script src="./js/bootstrap.min.js"></script>
+
+    <script src="./js/app.js"></script>
+  </body>
+</html>

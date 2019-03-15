@@ -84,14 +84,14 @@
             <div class="card-header image-caption"><code>ALL INDIA and ALL IRAQ</code> are summarization records</div>
             <br>
             <p class="list-group-item list-group-item-action">
-                The column <b>country</b> in the original provided dataset had entries for <b>ALL INDIA</b>
-                and <b>ALL IRAQ</b> which were basically summarization records 
+                The column <code>country</code> in the original provided dataset had entries for <code>ALL INDIA</code>
+                and <code>ALL IRAQ</code> which were basically summarization records 
             </p>
             <p class="list-group-item list-group-item-action">
               This data was not useful for the visualization, so was removed
             </p>
             <p class="list-group-item list-group-item-action">
-                The error was detected using a <code>Text Facet</code> on the <b>country</b> column and the entries were
+                The error was detected using a <code>Text Facet</code> on the <code>country</code> column and the entries were
                 deleted using OpenRefine using the <code>remove all matching rows</code> option after applying the filters
             </p>
           </div>
@@ -153,11 +153,11 @@
                 <div class="card-header image-caption"><code>198</code> rows in which all numeric generation metrics are blank</div>
                 <br>
                 <p class="list-group-item list-group-item-action">
-                    The errors were detected using OpenRefine. <code>Text Facets</code>. Blank values were there in 
+                    The errors were detected using OpenRefine. Blank values were there in 
                     <code>country_long</code> column. These were replaced with the correct value by applying two 
                     <code>Text Facets</code> - one on the <code>country</code> column and one on the 
                     <code>country_long</code> column and then filling the blank value using the correct value observed
-                    in the <code>country_long facet</code>
+                    in the <code>country_long facet.</code>
                     OpenRefine provides an option to edit a cell and apply the same change to all identical cells which was used
                   </p>
                 <p class="list-group-item list-group-item-action">
@@ -172,6 +172,9 @@
                     <code>generation_gwh_2013, generation_gwh_2014, generation_gwh_2015, generation_gwh_2016 and 
                         estimated_generation_gwh</code>. It is observed that for <code>198</code> rows all these columns
                         are blank. So they will not be contributing anything to the visualization. So they are removed
+                </p>
+                <p class="list-group-item list-group-item-action">Blank values in the columns like <code>name, owner</code> were set to <code>Unknown</code> 
+                so that they provide better user experience compared to blank values
                 </p>
               </div>
           </div>
@@ -190,7 +193,7 @@
                   which are out of range. Also there are values : <code>1477, 1774</code> which do not make sense
                   as power plants did not exist at that time. So they are set to blank</div>
                 <img src="./img/diag26.png" alt="" class="error-img">
-                <div class="card-header image-caption"><code>year_of_capacity_data</code> has <code>0</code> values
+                <div class="card-header image-caption"><code>year_of_capacity_data</code> has values which are <code>0</code> 
                   which are out of range.</div>
                 <img src="./img/diag28.png" alt="" class="error-img">
                 <div class="card-header image-caption"><code>generation_gwh_2016</code>
@@ -228,7 +231,7 @@
                 <div class="card-header image-caption">Example of spelling mistakes in <code>fuel1</code> column</div>
                 </div>
                 <img src="./img/diag9.png" alt="" class="error-img">
-                <div class="card-header image-caption">Example of spelling mistakes in<code>country_long</code> column</div>
+                <div class="card-header image-caption">Example of spelling mistakes in <code>country_long</code> column</div>
                 <br>
                 <p class="list-group-item list-group-item-action">
                   The errors were detected using OpenRefine. <code>Text Facets</code> were applied on each column and clusters 
@@ -244,6 +247,7 @@
                 <p class="list-group-item list-group-item-action">
                     For the clusters the option: <code>Browse Cluster</code> provided by OpenRefine proved to be very useful as
                     it provided better context and helped ensure that dissimilar values are not clustered together.
+                    OpenRefine provides an option to edit a cell and apply the same change to all identical cells which was used
                 </p>
               </div>
           </div>
@@ -350,14 +354,19 @@
                 changes with respect to <code>Capacity (in mw)</code> for different countries.
                 We also want to represent the information of <code>generation (in gwh) for the year 2015</code>                
               </p>
-              <div class="row">
+              <p>
+                For generating the visualization I have filtered for the following condition:
+                <code>capacity > 0 and estimated_generation_gwh > 0 and generation_gwh_2015 > 0</code>
+
+              </p>
+              <div class="row" id="main-row">
                 <div class="col-md-8">
                     <svg id="svg-element" class="align-middle">
                       </svg>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="country-dropdown">Example multiple select</label>
+                        <label for="country-dropdown">Select the countries</label>
                         <select multiple="" class="form-control" id="country-dropdown">
                         </select>
                     </div>
@@ -375,6 +384,12 @@
                             <input type="range" class="form-control-range" id="estimation-min" min="0" max="24000" value="0">
                           </div>
                       </form>
+                      <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="" id="theme-selector">
+                            Dark Theme
+                          </label>
+                        </div>
                       <div class="label-row" id="label-row">
                       </div>
                 </div>
@@ -388,63 +403,41 @@
                   Visualization description
                 </p>
                 <p class="list-group-item list-group-item-action">
-                  The Heat Map has been arranged such that the charaters at the top are the most powerful ones.
-                  However here we have included Durability, Energy Projection and Fighting Skills scores in addition to Strength, Speed and Intelligence
+                  In the above Bubble Chart the X axis represents the <code>Capacity of thr plant (in mw)</code> The Y axis represents the <code>Estimated generation (in gwh)</code>
+                  The color of each circle represents a <code>country</code>. The size (area) of the bubble refers proportionally to the <code>generation (in gwh) for 2015</code>
                 </p>
                 <p class="list-group-item list-group-item-action">
-                    Users can explore the characters based on the Character Alignment and/or the Sex attribute
+                    The first filter is a multiple-select dropdown where users can select the countries they want to view that data for
                 </p>
                 <p class="list-group-item list-group-item-action">
-                    As we discovered above, Rogue had excellent Strength, Speed and Intelligence. Here we find that Rougue has the highest skill levels for all attributes. Thus, Rogue is the most powerful character 
+                  The other two filters are sliders by which users can set a minimum threshold for <code>capacity and estimated generation</code>
+                  The chart has a lot of data points in the region <code>capacity < 1000 and estimated_generation < 4000</code> So these filters will help the user
+                  view and explore specific portions of the chart 
                 </p>
                 <p class="list-group-item list-group-item-action">
-                    The most powerful Marvel character is a female character. This is a very interesting finding.  
+                  Users can hover over specific bubbles to view more information about the plants
                 </p>
-                
+                <p class="list-group-item list-group-item-action">
+                    I have used a color-blind friendly palette for the chart generated from <a href="https://coolors.co/">this source</a>
+
+                    Additionally there is an option for a dark theme for the visualization to 
+                    help users who perceive contrast better
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    While animating in or out of the chart, all bubbles do not appear or disappear at the same time. They do so with a delay which helps the user perceive
+                    which bubble came from where and not lose perspective.
+                </p>
+                <p class="list-group-item list-group-item-action">
+                    From the plot one can easily understand the trend between <code>capacity and estimated generation</code>.
+                    Most plants with low capacity tend to have low estimated generation and also low generation value for 2015.
+                    Plants of India are of low capacity but have high values of estimated generation (even though the generation for 2015 was low)
+                    Most of the larger bubbles are towards the right of the chart which further illustrates the trend
+                </p>
                 </div>
             </div>
       </div>
 
-      <div class="card">
-          <div class="card-header">Visualization 7</div>
-            <div class="card-body card-body-custom">
-              <h4 class="card-title">
-                Word Cloud - Which are the most common and rare superpowers?
-              </h4>
-              <p>This visualization sources data from the 
-                <a href="https://www.kaggle.com/claudiodavi/superhero-set">
-                  second datasource
-                </a> mentioned above
-              </p>
-              
-              <div class='tableauPlaceholder' id='viz1547159805370' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;wo&#47;wordcloud-visualizingsuperpowers&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='wordcloud-visualizingsuperpowers&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;wo&#47;wordcloud-visualizingsuperpowers&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1547159805370');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1000px';vizElement.style.height='827px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-              <br>
-                
-                <p class="list-group-item list-group-item-action active">
-                    Information and Conclusions from the above plot:
-                  </p>
-                  <p class="list-group-item list-group-item-action">
-                      The Word Cloud uses the second dataset and visualizes the most frequently occurring superpowers with greater size. This is an interactive data visualization. Users can select superpowers of their interest.
-                    The table will be populated with the superheroes that possess the superpowers that the user has selected
-                  </p>
-                  <p class="list-group-item list-group-item-action">The highlighter is provided because sometimes the superpower text is too small to be easily 
-                    spotted. Users can use the highlighter to see where the superpower is in the word cloud
-                  </p>
-                  <p class="list-group-item list-group-item-action">We can use the visualizations to gain insights. For example, we want to find which characters can sense danger apart from Spider Man</p>
-                  <p class="list-group-item list-group-item-action">We use highlighter to find "danger sense". Then we click on danger sense in the word cloud
-                    In the table below we see that characters like Hellcat, Carnage and Captain Marvel can also sense danger
-                  </p>
-                </div>
-            </div>
-      </div>  
-    <div class="card" style="border: none !important">
-        <div class="card-body card-body-custom">
-        <p class="lead">
-            <em>The data story answers all the questions addressed above. It also finds some interesting observations along the way.
-            Additionaly, users have the scope of interacting with many of the plots and deriving their own insights</em>  
-          </p>
-          </div>
-    </div>
+      
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
