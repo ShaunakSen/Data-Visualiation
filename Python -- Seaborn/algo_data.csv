@@ -1,0 +1,10 @@
+Algorithm,Test accuracy (in %),Features
+Random Forest,81,Base dataset (cleaned)
+Logistic Regression,72,Base dataset (cleaned)
+SVM,54.5,Base dataset (cleaned)
+Random Forest,83.79,With Weather and Health
+SVM,72.5,With Weather and Health
+Logistic Regression,73.2,With Weather and Health
+Random Forest,85,"With Weather, Health and GRACE"
+Logistic Regression,73,"With Weather, Health and GRACE"
+SVM,77,"With Weather, Health and GRACE"
