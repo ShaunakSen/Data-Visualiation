@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import pickle
+from pandas.core import frame
 import plotly
 import plotly.express as px
 import plotly.graph_objects as go
@@ -94,4 +95,52 @@ df = px.data.tips()
 fig = px.histogram(data_frame=df, x='total_bill', y='tip', color='sex', facet_row='time', facet_col='day', 
                         category_orders={'day': ["Thur", "Fri", "Sat", "Sun"], 'time': ['Lunch', 'Dinner']})
 
-fig.show()
+# fig.show()
+
+### Horizontal and Vertical Lines and Rectangles
+
+df = px.data.iris()
+
+print (df.head())
+
+"""
+sepal_length  sepal_width  petal_length  petal_width species  species_id
+0           5.1          3.5           1.4          0.2  setosa           1
+1           4.9          3.0           1.4          0.2  setosa           1
+"""
+
+fig = px.scatter(df, x="petal_length", y="petal_width")
+fig.add_hline(y=0.9)
+fig.add_vrect(x0=0.9, x1=2)
+# fig.show()
+# print (fig)
+
+#### These shapes can be styled by passing the same arguments as are accepted by add_shape:
+
+fig = px.scatter(df, x="petal_length", y="petal_width")
+fig.add_vline(x=2.5, line_width=3, line_dash="dash", line_color="green")
+fig.add_hrect(y0=0.9, y1=2.6, line_width=0, fillcolor="red", opacity=0.2)
+# fig.show()
+
+
+### Adding Text Annotations
+
+df = px.data.stocks(indexed=True)
+
+"""
+ company         GOOG      AAPL      AMZN        FB      NFLX      MSFT
+date
+2018-01-01  1.000000  1.000000  1.000000  1.000000  1.000000  1.000000
+2018-01-08  1.018172  1.011943  1.061881  0.959968  1.053526  1.015988
+"""
+print (df.head())
+
+print (df.columns)
+fig = px.line(data_frame=df)
+fig.add_hline(y=1, line_dash='dot', annotation_text='Jan 1, 2018 baseline', annotation_position = 'bottom right')
+fig.add_vrect(x0="2018-09-24", x1="2018-12-18", annotation_text="decline", annotation_position="top left", fillcolor="green", opacity=0.25, line_width=0)
+# fig.show()
+
+#### The same line or box can be added to multiple subplots or facets by setting the row and/or col to "all". The default row and col values are "all".
+
+# fig = px.line(data_frame=df, facet_col='company', )
