@@ -31,3 +31,41 @@ We can also set the trigger of each animation to be on click/with prev/after pre
 We can also set the duration, delay
 
 We can also drag the bars on the animation pane to set duration and delay
+
+### Animation pane - some advanced settings
+
+![https://i.imgur.com/K9HgFNu.png](https://i.imgur.com/K9HgFNu.png)
+
+Here there is an option called "Repeat"
+
+Also there is an option called "Rewind when done playing", so if we have a motion path that goes from one side to the other, once the animation is done, we can reset it
+
+![https://i.imgur.com/1x10vua.png](https://i.imgur.com/1x10vua.png)
+
+### Advanced animation options
+
+Animation pane → Effect options
+
+There are a bunch of options  here - experiment with them
+
+**Animating text**
+
+Animations → emphasis → some animation icons have a text inside them, these are for text
+
+We can also apply object level animations
+
+For example we apply the fade in animation to the text box
+
+But here we have bulleted text:
+
+![https://i.imgur.com/026nwP7.png](https://i.imgur.com/026nwP7.png)
+
+We want each item to have its own animation sequence, for example we might want the top level bullets to appear first
+
+effect options → by paragraph
+
+Also we can further customize all this from animation pane → effect options → text animation
+
+![https://i.imgur.com/Etw5pFE.png](https://i.imgur.com/Etw5pFE.png)
+
+Also in effect options → effect there is "Animate text" option - here we can select "Animate by letter" - quite cool!
